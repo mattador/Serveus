@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<database>
+		<driver>PDO_MYSQL</driver>
+		<host>localhost</host>
+		<user>debugthat</user>
+		<password>debugthat</password>
+	</database>
+	<security>
+		<salt>debugthat</salt>
+	</security>
+</config>
