@@ -1,12 +1,14 @@
 <?php
 namespace Sys\Loader;
+use \Exception as Exception;
+require_once ('LoaderInterface.php');
 
-class ClassMap
+class ClassMap implements LoaderInterface
 {
 
     const NS = '\\';
 
-    public function attachLoader()
+    public function attachLoader ()
     {
         spl_autoload_register(
                 array(
@@ -18,6 +20,13 @@ class ClassMap
     public function loadFactory ($class)
     {
         $segmented = array_slice(explode(self::NS, $class), 1);
-        require_once (SYS . DS . implode(DS, array_map('ucfirst', $segmented)) . '.php');
+        if (empty($segmented)) {
+            return false;
+        }
+        $file = SYS . DS . implode(DS, array_map('ucfirst', $segmented)) . '.php';
+        if (! is_file($file)) {
+            throw new Exception('File "' . $file . '" does not exist');
+        }
+        require_once ($file);
     }
 }

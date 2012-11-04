@@ -4,15 +4,15 @@ use Sys\Common\Registry;
 use Sys\Common\Object;
 use SimpleXMLIterator;
 
-class ModuleMap extends Object
+class ModuleMap extends Object implements LoaderInterface
 {
 
     /**
      * Parse module config files into registry
      */
-    public function load ()
+    public function attachLoader ()
     {
-        if (Registry::get('modules')) {
+        if (Registry::exists('modules')) {
             return;
         }
         $modules = array();

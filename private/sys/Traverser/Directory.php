@@ -1,5 +1,5 @@
 <?php
-namespace sys\traverser;
+namespace Sys\Traverser;
 use RecursiveDirectoryIterator, RecursiveIteratorIterator, FilesystemIterator;
 
 class Directory

@@ -4,7 +4,7 @@ defined('ENV') || define('ENV', getenv('APPLICATION_ENV') ?  : 'live');
 
 // Paths
 define('DS', DIRECTORY_SEPARATOR);
-define('BASE', realpath(dirname(__FILE__)) . DS . 'private');
+define('BASE', realpath(dirname(__FILE__)) . DS . '..' . DS . 'private');
 define('SYS', BASE . DS . 'sys');
 define('APP', BASE . DS . 'app');
 

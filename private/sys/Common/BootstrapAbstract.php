@@ -11,14 +11,12 @@ abstract class BootstrapAbstract
         $this();
     }
 
-    protected abstract function _prepLoader ();
-
-    protected abstract function _prepRegistry ();
-
-    protected abstract function _prepModules ();
+    protected abstract function _prepAutoLoader ();
 
     protected abstract function _prepRouter ();
 
+    protected abstract function _prepModules ();
+    
     protected abstract function _prepRenderer ();
 
     public function __invoke ()

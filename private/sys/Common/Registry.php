@@ -1,6 +1,7 @@
 <?php
 namespace sys\common;
-use \ArrayObject;
+use \ArrayObject as ArrayObject;
+use \Exception as Exception;
 
 class Registry extends ArrayObject
 {
@@ -10,6 +11,7 @@ class Registry extends ArrayObject
     public function __construct ($array, $flags)
     {
         parent::__construct($array, $flags);
+        $this->offsetSet('singleton_collection', array());
     }
 
     public static function getInstance ()
@@ -23,16 +25,18 @@ class Registry extends ArrayObject
 
     public static function set ($key, $value)
     {
-        $class = self::getInstance();
-        $class->offsetSet($key, $value);
+        self::getInstance()->offsetSet($key, $value);
     }
 
     public static function get ($key)
     {
-        $class = self::getInstance();
-        if ($class->offsetExists($key)) {
-            return $class->offsetGet($key);
+        if (self::getInstance()->offsetExists($key)) {
+            return self::getInstance()->offsetGet($key);
         }
-        return false;
+        throw new Exception('Key "'.$key.'" does not exist in registry');
+    }
+    
+    public static function exists($key){
+        return self::getInstance()->offsetExists($key);
     }
 }
