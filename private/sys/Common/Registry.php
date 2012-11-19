@@ -1,5 +1,5 @@
 <?php
-namespace sys\common;
+namespace Sys\Common;
 use \ArrayObject as ArrayObject;
 use \Exception as Exception;
 

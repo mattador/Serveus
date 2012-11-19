@@ -12,7 +12,7 @@ class ModuleMap extends Object implements LoaderInterface
      */
     public function attachLoader ()
     {
-        if (Registry::exists('modules')) {
+        if (Registry::exists('modules_collection')) {
             return;
         }
         $modules = array();
@@ -22,12 +22,13 @@ class ModuleMap extends Object implements LoaderInterface
         while ($it->valid()) {
             if ($it->isFile() && $it->current()->getExtension() == 'xml') {
                 $xml = simplexml_load_file($it->current()->__toString());
-                $modules[(string) $xml->module] = array(
-                        'url' => (string) $xml->url,
+                $modules[(string) $xml->name] = array(
+                        'name' => ucfirst($xml->name),
                         'html' => array(
                                 'layout' => (string) $xml->html->layout,
                                 'title' => (string) $xml->html->title
-                        )
+                        ),
+                        'location' => realpath($it->current()->getPath())
                 );
             }
             $it->next();

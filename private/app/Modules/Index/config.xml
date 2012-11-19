@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
-	<module>default</module>
-	<url>/</url>
+	<name>index</name>
 	<html>
 		<layout>html5.phtml</layout>
 		<title>default module title</title>

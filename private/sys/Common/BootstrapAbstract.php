@@ -11,17 +11,18 @@ abstract class BootstrapAbstract
         $this();
     }
 
-    protected abstract function _prepAutoLoader ();
+    protected abstract function _prep00_AutoLoader ();
 
-    protected abstract function _prepRouter ();
+    protected abstract function _prep01_Modules ();
 
-    protected abstract function _prepModules ();
-    
-    protected abstract function _prepRenderer ();
+    protected abstract function _prep02_Router ();
+
 
     public function __invoke ()
     {
-        foreach (get_class_methods(__CLASS__) as $method) {
+        $methods = get_class_methods(__CLASS__);
+        sort($methods);
+        foreach ($methods as $method) {
             if ((substr($method, 0, 5)) == '_prep') {
                 $this->$method();
             }

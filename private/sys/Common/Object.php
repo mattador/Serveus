@@ -1,5 +1,5 @@
 <?php
-namespace sys\common;
+namespace Sys\Common;
 use \Exception as Exception;
 
 class Object
