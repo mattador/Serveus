@@ -1,25 +1,21 @@
 <?php
+
 namespace Sys\Common;
-use \Exception as Exception;
+
+use \Exception;
 
 /**
  * SEO friendly routing
  *
  * @author Matthew Cooper <matthew.cooper@magneticus.org>
  */
-class HttpRouter extends Object
-{
+class HttpRouter extends Object {
 
     const URL_SAFE = '/[^A-Za-z0-9\/_-]+/';
-
-    const MODULE = 'Index';
-
-    const CONTROLLER = 'Index';
-
+    const MODULE = 'index';
+    const CONTROLLER = 'index';
     const ACTION = 'index';
-
     const NOT_FOUND = 'notfound';
-
     const ERROR = 'error';
 
     /**
@@ -27,8 +23,7 @@ class HttpRouter extends Object
      *
      * @return array $moduleStruct
      */
-    public function routeModule ()
-    {
+    public function routeModule() {
         $module = $this->factory();
         $moduleStruct = $this->getModule($module);
         return $moduleStruct;
@@ -39,13 +34,12 @@ class HttpRouter extends Object
      *
      * @return mixed $mod
      */
-    public function factory ()
-    {
+    public function factory() {
         $uri = explode('?', $_SERVER['REQUEST_URI']);
         // bad request
         if (count($uri) > 2) {
             $mod = array(
-                    self::ERROR
+                self::ERROR
             );
             return $mod;
         }
@@ -54,7 +48,7 @@ class HttpRouter extends Object
         // empty request
         if (empty($uri)) {
             $mod = array(
-                    self::MODULE
+                self::MODULE
             );
             return $mod;
         }
@@ -62,7 +56,7 @@ class HttpRouter extends Object
         $mod = array_slice($uri, 0, 3);
         $raw = array_slice($uri, 3);
         $params = array();
-        for ($i = 0; $i < count($raw); $i ++) {
+        for ($i = 0; $i < count($raw); $i++) {
             if ($i % 2 == 0) {
                 $params[$raw[$i]] = isset($raw[$i + 1]) ? $raw[$i + 1] : '';
             }
@@ -79,32 +73,34 @@ class HttpRouter extends Object
      * @throws Exception
      * @return Sys\Common\Module $modInstance
      */
-    public function getModule ($mod)
-    {
+    public function getModule($mod) {
         $modules = Registry::get('modules_collection');
-        if (! isset($modules[$mod[0]])) {
-            header('Location: /' . self::NOT_FOUND);
-        }
-        if ($mod[0] == self::NOT_FOUND) {
-            header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
+
+        if (!isset($modules[$mod[0]])) {
+            $this->notFound('Module "' . ucfirst($mod[0]) . '" not found.');
         }
         $module = $modules[$mod[0]];
         $controller = ucfirst(isset($mod[1]) ? $mod[1] : self::CONTROLLER);
         $action = (isset($mod[2]) ? $mod[2] : self::ACTION) . 'Action';
         $controllerFile = $module['location'] . DS . 'Controllers' . DS .
-                 $controller . '.php';
-        if (! is_file($controllerFile)) {
-            throw new Exception(
+                $controller . '.php';
+        if (!is_file($controllerFile)) {
+            $this->notFound(
                     "Controller '{$module['name']}/$controller' not found.");
         }
-        if (! preg_match('/' . $action . '/', 
-                file_get_contents($controllerFile))) {
-            throw new Exception(
+        if (!preg_match('/' . $action . '/', file_get_contents($controllerFile))) {
+            $this->notFound(
                     "Controller action '{$module['name']}/$controller/$action' not found.");
         }
         $module['controller'] = $controller;
         $module['action'] = $action;
-        $module['location'] = $controllerFile;
         return $module;
     }
+
+    public function notFound($message) {
+        Session::getSession()->setVar('_404', 'message', $message);
+        header('Location: /' . self::NOT_FOUND);
+        exit;
+    }
+
 }

@@ -1,7 +1,13 @@
 <?php
+
 namespace Sys\Loader;
 
-interface LoaderInterface
-{
-    function attachLoader ();
+/**
+ * Loader interface
+ *
+ * @author Matthew Cooper <matthew.cooper@magneticus.org>
+ */
+interface LoaderInterface {
+
+    function attachLoader();
 }

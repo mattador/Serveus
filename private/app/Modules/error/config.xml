@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<module>
-	<name>error</name>
-	<html>
-		<layout>html5.phtml</layout>
-		<title>default module title</title>
-	</html>
-</module>

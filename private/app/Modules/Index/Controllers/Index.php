@@ -1,10 +1,13 @@
 <?php
-namespace App\Modules\Index\Controller;
+
+namespace App\Modules\Index\Controllers;
+
 use Sys\Controller\BaseController as Controller;
 
-class Index extends Controller
-{
+class Index extends Controller {
 
-    public function indexAction ()
-    {}
+    public function indexAction() {
+        $this->render();
+    }
+
 }

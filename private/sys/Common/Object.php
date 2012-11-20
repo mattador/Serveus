@@ -1,22 +1,25 @@
 <?php
+
 namespace Sys\Common;
-use \Exception as Exception;
 
-class Object
-{
+use \Exception;
 
-    public function __get ($key)
-    {
+/**
+ * Core shortcut functionality
+ *
+ * @author Matthew Cooper <matthew.cooper@magneticus.org>
+ */
+abstract class Object {
+
+    public function __get($key) {
         return isset($this->$key) ? $this->$key : null;
     }
 
-    public function __set ($key, $value)
-    {
+    public function __set($key, $value) {
         $this->$key = $value;
     }
 
-    public function __call ($name, $arguments)
-    {
+    public function __call($name, $arguments) {
         switch ($name) {
             case 'getObject':
                 if (empty($arguments)) {
@@ -30,10 +33,10 @@ class Object
                     throw new Exception('Missing singleton class name');
                 }
                 $objects = Registry::get('singleton_collection');
-                if (! isset($objects[$arguments[0]])) {
+                if (!isset($objects[$arguments[0]])) {
                     $class = "\\sys\\" . str_replace('/', "\\", $arguments[0]);
                     $objects[$arguments[0]] = new $class(
-                            isset($arguments[1]) ? $arguments[1] : null);
+                                    isset($arguments[1]) ? $arguments[1] : null);
                 }
                 return $objects[$arguments[0]];
                 break;
@@ -42,8 +45,12 @@ class Object
         }
     }
 
-    public static function __callStatic ($name, $arguments)
-    {
+    public static function __callStatic($name, $arguments) {
         throw new Exception('__callStatic() magic method not implemented');
     }
+
+    final private function __clone() {
+        
+    }
+
 }

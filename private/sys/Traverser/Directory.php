@@ -1,9 +1,17 @@
 <?php
-namespace Sys\Traverser;
-use RecursiveDirectoryIterator, RecursiveIteratorIterator, FilesystemIterator;
 
-class Directory
-{
+namespace Sys\Traverser;
+
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use FilesystemIterator;
+
+/**
+ * Recursive directory iterator
+ *
+ * @author Matthew Cooper <matthew.cooper@magneticus.org>
+ */
+class Directory {
 
     protected $_iterator;
 
@@ -12,17 +20,16 @@ class Directory
      * @param string $path            
      * @return \RecursiveIteratorIterator
      */
-    public function __construct ($path)
-    {
+    public function __construct($path) {
         $iterator = new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator($path, 
-                        FilesystemIterator::SKIP_DOTS));
+                        new RecursiveDirectoryIterator($path,
+                                FilesystemIterator::SKIP_DOTS));
         $this->_iterator = $iterator;
     }
 
-    public function getIterator ()
-    {
+    public function getIterator() {
         return $this->_iterator;
     }
+
 }
 
