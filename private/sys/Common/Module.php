@@ -20,6 +20,7 @@ class Module extends Object {
         $controller->beforeCall();
         $controller->$action();
         $controller->afterCall();
+        $controller = null;
     }
 
 }
