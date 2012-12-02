@@ -8,7 +8,7 @@ require_once ('LoaderInterface.php');
 /**
  * SPL autoloader class
  *
- * @author Matthew Cooper <matthew.cooper@magneticus.org>
+ * @author Matthew Cooper <mattador82@gmail.com>
  */
 class ClassMap implements LoaderInterface {
 

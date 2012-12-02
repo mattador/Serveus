@@ -7,7 +7,7 @@ use Sys\Loader;
 /**
  * Front controller facade pattern
  *
- * @author Matthew Cooper <matthew.cooper@magneticus.org>
+ * @author Matthew Cooper <mattador82@gmail.com>
  */
 final class Bootstrap {
 

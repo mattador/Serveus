@@ -8,7 +8,7 @@ use Sys\Common\Object;
 /**
  * Maps modules into registry
  *
- * @author Matthew Cooper <matthew.cooper@magneticus.org>
+ * @author Matthew Cooper <mattador82@gmail.com>
  */
 class ModuleMap extends Object implements LoaderInterface {
 

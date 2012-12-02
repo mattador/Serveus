@@ -3,15 +3,17 @@
 namespace Sys\Common;
 
 use \Exception;
+use App\Modules\UrlRewrites as Rewrites;
 
 /**
  * SEO friendly routing
  *
- * @author Matthew Cooper <matthew.cooper@magneticus.org>
+ * @author Matthew Cooper <mattador82@gmail.com>
  */
 class HttpRouter extends Object {
 
-    const URL_SAFE = '/[^A-Za-z0-9\/_-]+/';
+    const URL_SAFE = '/[^A-Za-z0-9\/_-]\.\[\]\~\+\&\=\#+/';
+    const MODULE_URL_SAFE = '/[^A-Za-z0-9\/_-]+/';
     const MODULE = 'index';
     const CONTROLLER = 'index';
     const ACTION = 'index';
@@ -35,7 +37,7 @@ class HttpRouter extends Object {
      * @return mixed $mod
      */
     public function factory() {
-        $uri = explode('?', $_SERVER['REQUEST_URI']);
+        $uri = explode('?', strtolower($_SERVER['REQUEST_URI']));
         // bad request
         if (count($uri) > 2) {
             $mod = array(
@@ -43,7 +45,12 @@ class HttpRouter extends Object {
             );
             return $mod;
         }
-        $uri = preg_replace(self::URL_SAFE, '', $uri[0]);
+        // custom request
+        $customUrl = preg_replace(self::URL_SAFE, '', $uri[0]);
+        if (array_key_exists($customUrl, Rewrites::$urlMap)) {
+            return Rewrites::$urlMap[$customUrl];
+        }
+        $uri = preg_replace(self::MODULE_URL_SAFE, '', $uri[0]);
         $uri = array_filter(explode('/', $uri), 'strlen');
         // empty request
         if (empty($uri)) {

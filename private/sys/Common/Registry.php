@@ -8,7 +8,7 @@ use \Exception;
 /**
  * Simple Registry pattern
  *
- * @author Matthew Cooper <matthew.cooper@magneticus.org>
+ * @author Matthew Cooper <mattador82@gmail.com>
  */
 class Registry extends ArrayObject {
 
